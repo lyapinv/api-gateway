@@ -1,0 +1,11 @@
+https://labs.consol.de/devops/linux/2019/11/29/codeready-containers-on-ubuntu.html
+
+
+https://github.com/code-ready/crc/issues/1016
+Let’s make sure that any normal user is able to connect and interact with libvirt, without any need for root priviledges. First off, we configure the sockets to be owned and be accessible by a certain group (e.g. libvirt group). Before doing that, make sure that the group libvirt already exists in your system:
+getent group | grep libvirt
+libvirt:x:462
+....
+
+
+crc start --nameserver 127.0.1.1
