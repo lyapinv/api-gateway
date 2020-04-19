@@ -1,0 +1,114 @@
+# Egress
+
+# Run the following command to confirm it is configured correctly:
+oc get configmap istio -n istio-system -o yaml | grep -o "mode: ALLOW_ANY"
+# The string mode: ALLOW_ANY should appear in the output if it is enabled.
+
+# Check external service avaliable
+curl http://192.168.122.1:8081/ping
+curl http://minishift.host:8081/ping
+
+### Change to the blocking-by-default policy
+# Run the following command to change the global.outboundTrafficPolicy.mode option to REGISTRY_ONLY:
+oc get configmap istio -n istio-system -o yaml | sed 's/mode: ALLOW_ANY/mode: REGISTRY_ONLY/g' | kubectl replace -n istio-system -f -
+# Run the following command to confirm it is configured correctly:
+oc get configmap istio -n istio-system -o yaml | grep -o "mode: REGISTRY_ONLY"
+# You shood see
+#	mode: REGISTRY_ONLY
+#	mode: REGISTRY_ONLY
+
+# Check external service unavaliable
+curl http://192.168.122.1:8081/ping
+curl http://minishift.host:8081/ping
+# You must see message "Connection reset by peer"
+
+
+# Define a ServiceEntry for ext. host.
+oc apply -f api-gateway/egress/ServiceEntry.yaml
+
+
+# Define a Egress Gateway and DestinationRule
+oc apply -f api-gateway/egress/Gateway.yaml
+oc apply -f api-gateway/egress/DestinationRule.yaml
+
+
+# Define a VirtualService to direct traffic from the sidecars to the egress gateway and from the egress gateway to the external service:
+oc apply -f api-gateway/egress/VirtualService.yaml
+
+
+while (true); do curl http://minishift.host:80/ping; sleep 1; done
+
+
+
+---------------------- Enabling proxy to run spring service on 80 port
+Solution 1: HTTP Proxy server
+You can use Apache2 server which is allowed by default to work on port 80 and can forward requests for you to Tomcat
+
+Example configuration for Debian
+
+sudo apt-get install apache2
+
+a2enmod proxy
+a2enmod proxy_http   
+
+cd /etc/apache2/sites-enabled
+sudo nano 000-default.conf
+
+Edit file:
+<VIRTUALHOST *:80>
+
+    ProxyPreserveHost On
+
+    # ...
+
+    ProxyPass / http://localhost:8080/
+</VIRTUALHOST>
+
+
+Restart Apache2 to apply changes:
+sudo service apache2 restart
+or
+sudo systemctl restart apache2
+
+
+
+Solution 2: Port forwarding
+Use iptables for redirects
+
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+if you need to use localhost also add this
+
+iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 8080
+shareimprove this answerfollow
+edited Oct 18 '18 at 9:17
+
+naXa
+21.7k1212 gold badges124124 silver badges186186 bronze badges
+answered Nov 14 '15 at 1:10
+
+Oskar Dajnowicz
+1,33477 silver badges1212 bronze badges
+5
+Thanks for iptables solution. – heroin Jan 13 '16 at 19:55
+For mac, following command will work : echo "rdr pass inet proto tcp from any to any port 80 -> 127.0.0.1 port 8080" | sudo pfctl -ef - – Awesome Sep 5 '18 at 14:44 
+1
+Thanks for the Apache2 solution! I've edited your answer to add more details for this solution. – naXa Oct 18 '18 at 9:13
+ran the process as root and then i could use 80 and 443. thank u – Sam Nov 13 '18 at 11:11
+add a comment
+
+
+
+----- The comads to return accessive cluster mode
+oc get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+# Exposing CRC internal registry
+1. Get crc registry route. By default it's name "default-route" 
+	- $(oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}')
+2. Try to login:
+	- docker login -u kubeadmin -p $(oc whoami -t) default-route-openshift-image-registry.apps-crc.testing
+If you have error "Error response from daemon: Get https://default-route-openshift-image-registry.apps-crc.testing/v2/: x509: certificate signed by unknown authority"
+Then doe execute the next command
+	- sudo mkdir -p /etc/docker/certs.d/default-route-openshift-image-registry.apps-crc.testing
+	Download the route ca cert which used to sign the registry route.
+	Use this cert to login to registry using docker.
+	- sudo cp tls.crt /etc/docker/certs.d/default-route-openshift-image-registry.apps-crc.testing	  
+Try to login.
