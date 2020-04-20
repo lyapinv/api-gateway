@@ -39,6 +39,14 @@ oc apply -f api-gateway/egress/VirtualService.yaml
 while (true); do curl http://minishift.host:80/ping; sleep 1; done
 
 
+----------------------- For TCP connection
+# Check you tcp endpoint uvaliable
+
+
+# Create ServiceEntry for tcp endpoint
+oc apply -f api-gateway/egress/tcp/ServiceEntry.yaml
+
+
 
 ---------------------- Enabling proxy to run spring service on 80 port
 Solution 1: HTTP Proxy server
@@ -99,6 +107,16 @@ add a comment
 
 ----- The comads to return accessive cluster mode
 oc get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
+
+
+
+
+
+------------------------------------- Direct TCP Egress traffic through an egress gateway ----------------------------------
+# Configure TCP traffic from sidecars to the egress gateway
+# Define the EGRESS_GATEWAY_MONGODB_PORT environment variable to hold some port for directing traffic through the egress gateway, e.g. 7777. 
+# You must select a port that is not used for any other service in the mesh. 
+# Add the selected port to the istio-egressgateway service.
 
 
 
