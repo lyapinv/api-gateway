@@ -6,6 +6,8 @@ metadata:
 spec:
   version: v1.1
   istio:
+#    security:
+#      selfSigned: false
     global:
       proxy:
         resources:
@@ -30,6 +32,7 @@ spec:
       istio-ingressgateway:
         autoscaleEnabled: false
         ior_enabled: false
+        type: NodePort
         resources:
 	  requests:
 	    cpu: 10m

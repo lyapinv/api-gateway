@@ -121,7 +121,11 @@ oc get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode
 
 
 
+------------------------------------- mTLS config status
+istioctl authn tls-check $(oc get pods -n tutorial|grep rest-app-a|awk '{ print $1 }'|head -1) rest-app-a.tutorial.svc.cluster.local
 
+istioctl authn tls-check $(oc get pods -n tutorial|grep rest-app-a|awk '{ print $1 }'|head -1) rest-app-a.tutorial.svc.cluster.local
+istioctl authn tls-check istio-egressgateway-7dd75547cd-6wmg7.istio-system istio-egressgateway.istio-system.svc.cluster.local
 
 
 

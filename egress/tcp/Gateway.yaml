@@ -1,14 +1,16 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: istio-egressgateway
+  name: istio-egressgateway-mysql
 spec:
   selector:
     istio: egressgateway
   servers:
-    - port:
-        number: 15443
-        name: tcp
-        protocol: TCP
-      hosts:
-        - mysql.tcp.svc
+  - port:
+      number: 15443
+      name: tls
+      protocol: TLS
+    hosts:
+    - mysql.tcp.svc
+    tls:
+      mode: ISTIO_MUTUAL
