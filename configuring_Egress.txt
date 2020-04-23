@@ -130,6 +130,23 @@ istioctl authn tls-check istio-egressgateway-7dd75547cd-6wmg7.istio-system istio
 
 
 
+-------------------------- View pod config status
+istioctl x describe pod rest-app-a-7cb6cff446-rdjfx 
 
+# Result
+Pod: rest-app-a-7cb6cff446-rdjfx
+   Pod Ports: 8081 (jdbc-app-1), 15090 (istio-proxy)
+--------------------
+Service: rest-app-a
+   Port: http 8080/HTTP targets pod port 8081
+DestinationRule: default.istio-system for "*.local"
+   Traffic Policy TLS Mode: ISTIO_MUTUAL
+Pod is STRICT and clients are ISTIO_MUTUAL
+
+
+Exposed on Ingress Gateway http://192.168.130.11:8080
+
+VirtualService: tutorial-rest-app-a-vs
+   /citiesCount*, /ping*
 
 
