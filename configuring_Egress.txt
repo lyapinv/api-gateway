@@ -128,6 +128,12 @@ istioctl authn tls-check $(oc get pods -n tutorial|grep rest-app-a|awk '{ print 
 istioctl authn tls-check istio-egressgateway-7dd75547cd-6wmg7.istio-system istio-egressgateway.istio-system.svc.cluster.local
 
 
+-------------------------------------- For case with configured Ingress
+export INGRESS_HOST=$(crc ip)
+export INGRESS_PORT=$(oc -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+
+while (true); do curl -i -HHost:rest-app-a.example.com http://$INGRESS_HOST:$INGRESS_PORT/citiesCount; sleep 1s; done
+
 
 
 -------------------------- View pod config status
