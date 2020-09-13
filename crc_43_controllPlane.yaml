@@ -11,11 +11,8 @@ spec:
     global:
       proxy:
         resources:
-          requests:
-            cpu: 100m
-            memory: 64Mi
           limits:
-            cpu: 100m
+            cpu: 50m
             memory: 64Mi
       mtls:
         enabled: false
@@ -23,22 +20,16 @@ spec:
       istio-egressgateway:
         autoscaleEnabled: false
         resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
           limits:
-            cpu: 100m
+            cpu: 50m
             memory: 128Mi
       istio-ingressgateway:
         autoscaleEnabled: false
         ior_enabled: false
         type: NodePort
         resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
           limits:
-            cpu: 100m
+            cpu: 50m
             memory: 128Mi
     mixer:
       policy:
@@ -46,48 +37,33 @@ spec:
       telemetry:
         autoscaleEnabled: false
         resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
           limits:
-            cpu: 100m
+            cpu: 50m
             memory: 128Mi
     pilot:
       autoscaleEnabled: false
       traceSampling: 100
       resources:
-        requests:
-          cpu: 100m
-          memory: 128Mi
         limits:
-          cpu: 100m
+          cpu: 50m
           memory: 128Mi
     kiali:
       enabled: true
       resources:
-        requests:
-          cpu: 100m
-          memory: 128Mi
         limits:
-          cpu: 100m
+          cpu: 50m
           memory: 128Mi
     grafana:
       enabled: true
       resources:
-        requests:
-          cpu: 100m
-          memory: 128Mi
         limits:
-          cpu: 100m
+          cpu: 50m
           memory: 128Mi
     tracing:
       enabled: true
       resources:
-        requests:
-          cpu: 100m
-          memory: 128Mi
         limits:
-          cpu: 100m
+          cpu: 50m
           memory: 128Mi
       jaeger:
         template: all-in-one
