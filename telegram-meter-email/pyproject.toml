@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "telegram-meter-email"
+version = "0.1.0"
+description = "Telegram bot that emails water meter readings"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "aiogram==3.22.0",
+  "aiosmtplib==4.0.2",
+  "pydantic==2.11.9",
+  "pydantic-settings==2.10.1",
+  "python-dotenv==1.1.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.2"]
+
+[project.scripts]
+meter-bot = "meter_bot.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

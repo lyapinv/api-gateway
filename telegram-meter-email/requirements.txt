@@ -1,0 +1,8 @@
+aiogram==3.22.0
+aiosmtplib==4.0.2
+pydantic==2.11.9
+pydantic-settings==2.10.1
+python-dotenv==1.1.1
+
+# Dev / test
+pytest==8.4.2
