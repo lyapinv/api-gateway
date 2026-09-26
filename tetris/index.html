@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!-- Откройте файл в браузере или из корня репозитория: python3 -m http.server -->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тетрис</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div>
+        <h1>Тетрис</h1>
+        <p class="tag">Семь ярких фигур · поле 10×20</p>
+      </div>
+      <div class="swatches" id="swatches" aria-hidden="true"></div>
+    </header>
+
+    <section class="layout">
+      <div class="stage">
+        <canvas id="board" width="280" height="560" aria-label="Игровое поле"></canvas>
+        <div id="overlay" class="overlay">
+          <p id="overlay-kicker" class="kicker">10×20</p>
+          <h2 id="overlay-title">Тетрис</h2>
+          <p id="overlay-text">Стрелки двигают фигуру, ↑ поворачивает, пробел сбрасывает вниз</p>
+          <button id="overlay-btn" type="button">Старт</button>
+        </div>
+      </div>
+
+      <aside class="side">
+        <div class="stat">
+          <span>Счёт</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="stat">
+          <span>Линии</span>
+          <strong id="lines">0</strong>
+        </div>
+        <div class="stat">
+          <span>Уровень</span>
+          <strong id="level">1</strong>
+        </div>
+        <div class="next-card">
+          <span>Следующая</span>
+          <canvas id="next" width="112" height="112" aria-label="Следующая фигура"></canvas>
+        </div>
+        <button id="pause-btn" type="button" class="text-btn" data-tap="pause">Пауза</button>
+      </aside>
+    </section>
+
+    <section class="controls" aria-label="Управление">
+      <div class="pad">
+        <button type="button" data-hold="left" aria-label="Влево">←</button>
+        <button type="button" data-tap="rotate" aria-label="Поворот">Поворот</button>
+        <button type="button" data-hold="right" aria-label="Вправо">→</button>
+        <button type="button" data-hold="soft" aria-label="Мягкое падение">↓</button>
+        <button type="button" data-tap="hard" class="accent" aria-label="Сброс">Сброс</button>
+        <button type="button" data-tap="pause" aria-label="Пауза">Пауза</button>
+      </div>
+      <p class="help">
+        <span><kbd>←</kbd><kbd>→</kbd> движение</span>
+        <span><kbd>↑</kbd> поворот</span>
+        <span><kbd>↓</kbd> мягкое падение</span>
+        <span><kbd>Пробел</kbd> сброс</span>
+        <span><kbd>Z</kbd> другой поворот</span>
+        <span><kbd>P</kbd> пауза</span>
+      </p>
+    </section>
+  </main>
+  <script src="engine.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
